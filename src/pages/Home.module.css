@@ -1,0 +1,173 @@
+.container {
+  padding: var(--spacing-4);
+  padding-bottom: calc(var(--nav-height) + var(--spacing-8));
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: var(--spacing-4);
+  color: var(--color-text-secondary);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-bg-tertiary);
+  border-top-color: var(--color-accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.header {
+  text-align: center;
+  padding: var(--spacing-6) 0;
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--spacing-2);
+}
+
+.tagline {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+}
+
+.progressSection {
+  margin-bottom: var(--spacing-6);
+}
+
+.progressContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-5);
+}
+
+.progressInfo h3 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-1);
+}
+
+.progressDetail {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.streak {
+  margin-top: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-primary);
+  font-weight: 600;
+}
+
+.modules {
+  margin-bottom: var(--spacing-6);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-4);
+  color: var(--color-text-primary);
+}
+
+.moduleGrid {
+  display: grid;
+  gap: var(--spacing-4);
+}
+
+.moduleCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.moduleCard.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.moduleIcon {
+  font-family: var(--font-greek);
+  font-size: var(--font-size-2xl);
+  color: var(--color-accent-primary);
+}
+
+.moduleTitle {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+}
+
+.moduleDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.moduleStatus {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-1);
+}
+
+.lockProgress {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+.lockProgress span {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.quickStart {
+  margin-bottom: var(--spacing-6);
+}
+
+.stats {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-4);
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-4);
+  text-align: center;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.statValue {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-accent-primary);
+}
+
+.statLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

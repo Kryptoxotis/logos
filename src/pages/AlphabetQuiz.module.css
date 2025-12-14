@@ -1,0 +1,224 @@
+.container {
+  padding: var(--spacing-4);
+  padding-bottom: var(--spacing-8);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: var(--color-text-muted);
+}
+
+/* Ready Screen */
+.readyScreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-6);
+}
+
+.readyIcon {
+  font-family: var(--font-greek);
+  font-size: 4rem;
+  color: var(--color-accent-primary);
+  margin-bottom: var(--spacing-4);
+}
+
+.readyTitle {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-2);
+}
+
+.readyDesc {
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-6);
+}
+
+.quizTypes {
+  width: 100%;
+  margin-bottom: var(--spacing-6);
+}
+
+.quizType {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.typeIcon {
+  font-family: var(--font-greek);
+  color: var(--color-accent-primary);
+  min-width: 60px;
+}
+
+.backButton {
+  margin-top: var(--spacing-4);
+}
+
+/* Quiz Header */
+.quizHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
+}
+
+.progressBar {
+  flex: 1;
+}
+
+.questionCount {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Question */
+.questionContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.prompt {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.promptDisplay {
+  font-family: var(--font-greek);
+  font-size: var(--font-size-greek);
+  color: var(--color-accent-primary);
+  text-align: center;
+  margin-bottom: var(--spacing-8);
+  line-height: 1;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* Feedback */
+.feedback {
+  margin-top: var(--spacing-6);
+  padding: var(--spacing-4);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+}
+
+.feedbackMessage {
+  font-weight: 600;
+  margin-bottom: var(--spacing-3);
+  text-align: center;
+}
+
+.feedbackMessage.correct {
+  color: var(--color-success);
+}
+
+.feedbackMessage.incorrect {
+  color: var(--color-error);
+}
+
+.feedbackInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.feedbackGreek {
+  font-family: var(--font-greek);
+  font-size: var(--font-size-xl);
+  color: var(--color-accent-primary);
+}
+
+.feedbackName {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.feedbackSound {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* Results Screen */
+.resultsScreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-6);
+}
+
+.resultIcon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-4);
+}
+
+.resultTitle {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-6);
+}
+
+.resultCard {
+  width: 100%;
+  margin-bottom: var(--spacing-6);
+}
+
+.resultStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-4);
+}
+
+.resultStat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.resultValue {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-accent-primary);
+}
+
+.resultLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.resultActions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}

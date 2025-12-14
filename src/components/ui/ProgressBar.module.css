@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+}
+
+.track {
+  flex: 1;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+/* Sizes */
+.sm {
+  height: 4px;
+}
+
+.md {
+  height: 8px;
+}
+
+.lg {
+  height: 12px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+/* Variants */
+.default {
+  background: linear-gradient(90deg, var(--color-accent-secondary), var(--color-accent-primary));
+}
+
+.success {
+  background: var(--color-success);
+}
+
+.warning {
+  background: var(--color-warning);
+}
+
+.accent {
+  background: var(--color-accent-primary);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  min-width: 3rem;
+  text-align: right;
+}
+
+/* Circular Progress */
+.circular {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circularTrack {
+  fill: none;
+  stroke: var(--color-bg-tertiary);
+}
+
+.circularFill {
+  fill: none;
+}
+
+.circular-default {
+  stroke: var(--color-accent-secondary);
+}
+
+.circular-success {
+  stroke: var(--color-success);
+}
+
+.circular-accent {
+  stroke: var(--color-accent-primary);
+}
+
+.circularLabel {
+  position: absolute;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.circularValue {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.circularPercent {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-left: 1px;
+}
