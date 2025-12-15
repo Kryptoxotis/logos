@@ -78,7 +78,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 200, 87, 0.1) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
   opacity: 0;
   transition: opacity var(--transition-fast);
 }
@@ -86,7 +86,7 @@
 .letterCard:hover {
   border-color: var(--color-accent-primary);
   transform: translateY(-4px) scale(1.02);
-  box-shadow: var(--shadow-lg), var(--shadow-glow-gold);
+  box-shadow: var(--shadow-lg), var(--shadow-glow-cyan);
 }
 
 .letterCard:hover::before {
@@ -165,7 +165,7 @@
   transform: translateX(-50%);
   width: 150px;
   height: 150px;
-  background: radial-gradient(circle, rgba(255, 200, 87, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -184,7 +184,7 @@
   background-clip: text;
   display: block;
   line-height: 1;
-  filter: drop-shadow(0 0 30px rgba(255, 200, 87, 0.3));
+  filter: drop-shadow(0 0 30px rgba(6, 182, 212, 0.3));
 }
 
 .studyLower {

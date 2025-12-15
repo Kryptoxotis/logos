@@ -16,20 +16,20 @@
   --color-text-secondary: #b4b4c7;
   --color-text-muted: #6e6e8a;
 
-  /* Vibrant accent colors */
-  --color-accent-primary: #ffc857; /* Vibrant Gold */
+  /* Cool accent colors */
+  --color-accent-primary: #06b6d4; /* Cyan/Teal */
   --color-accent-secondary: #8b5cf6; /* Electric Violet */
-  --color-accent-tertiary: #06b6d4; /* Cyan */
-  --color-accent-warm: #f97316; /* Orange */
-  --color-accent-pink: #ec4899; /* Pink */
+  --color-accent-tertiary: #10b981; /* Emerald Green */
+  --color-accent-blue: #3b82f6; /* Blue */
+  --color-accent-deep: #6366f1; /* Indigo */
 
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #ffc857 0%, #f97316 100%);
-  --gradient-secondary: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-  --gradient-cool: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
-  --gradient-card: linear-gradient(145deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+  /* Gradients - Cool palette */
+  --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  --gradient-secondary: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  --gradient-cool: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --gradient-card: linear-gradient(145deg, rgba(6, 182, 212, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
   --gradient-success: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-  --gradient-error: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+  --gradient-error: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   --gradient-bg: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a12 70%);
 
   /* Status colors */
@@ -49,9 +49,10 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-glow-gold: 0 0 30px rgba(255, 200, 87, 0.3);
+  --shadow-glow-primary: 0 0 30px rgba(6, 182, 212, 0.3);
   --shadow-glow-violet: 0 0 30px rgba(139, 92, 246, 0.3);
   --shadow-glow-cyan: 0 0 30px rgba(6, 182, 212, 0.3);
+  --shadow-glow-green: 0 0 30px rgba(16, 185, 129, 0.3);
   --shadow-glow-success: 0 0 20px rgba(16, 185, 129, 0.4);
   --shadow-glow-error: 0 0 20px rgba(239, 68, 68, 0.4);
 
@@ -136,7 +137,7 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.15);
-  --shadow-glow-gold: 0 0 30px rgba(255, 200, 87, 0.2);
+  --shadow-glow-primary: 0 0 30px rgba(6, 182, 212, 0.2);
   --shadow-glow-violet: 0 0 30px rgba(139, 92, 246, 0.2);
 }
 
@@ -356,10 +357,10 @@ button {
 
 @keyframes glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 200, 87, 0.3);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(255, 200, 87, 0.5);
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.5);
   }
 }
 
