@@ -33,11 +33,24 @@ const DB_VERSION = 1;
 
 let dbInstance: IDBPDatabase<KryptoDBSchema> | null = null;
 
-// Check if user is authenticated with Supabase
-async function isAuthenticated(): Promise<boolean> {
+// Cached auth state to avoid repeated network requests
+let cachedUserId: string | null = null;
+
+// Initialize auth state listener
+if (isSupabaseConfigured() && supabase) {
+  supabase.auth.onAuthStateChange((_event, session) => {
+    cachedUserId = session?.user?.id || null;
+  });
+  // Also get initial state
+  supabase.auth.getUser().then(({ data: { user } }) => {
+    cachedUserId = user?.id || null;
+  });
+}
+
+// Check if user is authenticated with Supabase (uses cache)
+function isAuthenticated(): boolean {
   if (!isSupabaseConfigured() || !supabase) return false;
-  const { data: { user } } = await supabase.auth.getUser();
-  return !!user;
+  return !!cachedUserId;
 }
 
 export async function getDB(): Promise<IDBPDatabase<KryptoDBSchema>> {
@@ -120,7 +133,7 @@ const defaultProgress: UserProgress = {
 // Settings functions
 export async function getSettings(): Promise<UserSettings> {
   // Try Supabase first if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     const settings = await supabaseStorage.getSettingsFromSupabase();
     if (settings) return settings;
   }
@@ -133,7 +146,7 @@ export async function getSettings(): Promise<UserSettings> {
 
 export async function saveSettings(settings: UserSettings): Promise<void> {
   // Save to Supabase if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     await supabaseStorage.saveSettingsToSupabase(settings);
   }
 
@@ -152,7 +165,7 @@ export async function updateSettings(partial: Partial<UserSettings>): Promise<Us
 // Progress functions
 export async function getProgress(): Promise<UserProgress> {
   // Try Supabase first if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     const progress = await supabaseStorage.getProgressFromSupabase();
     if (progress) return progress;
   }
@@ -167,7 +180,7 @@ export async function saveProgress(progress: UserProgress): Promise<void> {
   progress.updatedAt = Date.now();
 
   // Save to Supabase if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     await supabaseStorage.saveProgressToSupabase(progress);
   }
 
@@ -186,7 +199,7 @@ export async function updateProgress(partial: Partial<UserProgress>): Promise<Us
 // SRS Item functions
 export async function getSRSItem(id: string): Promise<SRSItem | undefined> {
   // Try Supabase first if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     const item = await supabaseStorage.getSRSItemFromSupabase(id);
     if (item) return item;
   }
@@ -197,7 +210,7 @@ export async function getSRSItem(id: string): Promise<SRSItem | undefined> {
 
 export async function getAllSRSItems(): Promise<SRSItem[]> {
   // Try Supabase first if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     const items = await supabaseStorage.getAllSRSItemsFromSupabase();
     if (items.length > 0) return items;
   }
@@ -208,7 +221,7 @@ export async function getAllSRSItems(): Promise<SRSItem[]> {
 
 export async function getSRSItemsByType(type: 'letter' | 'noun-ending' | 'verb-ending'): Promise<SRSItem[]> {
   // Try Supabase first if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     const items = await supabaseStorage.getSRSItemsByTypeFromSupabase(type);
     if (items.length > 0) return items;
   }
@@ -219,7 +232,7 @@ export async function getSRSItemsByType(type: 'letter' | 'noun-ending' | 'verb-e
 
 export async function getDueItems(type?: 'letter' | 'noun-ending' | 'verb-ending'): Promise<SRSItem[]> {
   // Try Supabase first if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     const items = await supabaseStorage.getDueItemsFromSupabase(type);
     if (items.length > 0) return items;
   }
@@ -239,7 +252,7 @@ export async function getDueItems(type?: 'letter' | 'noun-ending' | 'verb-ending
 
 export async function saveSRSItem(item: SRSItem): Promise<void> {
   // Save to Supabase if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     await supabaseStorage.saveSRSItemToSupabase(item);
   }
 
@@ -250,7 +263,7 @@ export async function saveSRSItem(item: SRSItem): Promise<void> {
 
 export async function initializeSRSItems(): Promise<void> {
   // Initialize in Supabase if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     await supabaseStorage.initializeSRSItemsInSupabase();
   }
 
@@ -317,7 +330,7 @@ export async function initializeSRSItems(): Promise<void> {
 // Quiz history functions
 export async function saveQuizResult(result: QuizResult): Promise<void> {
   // Save to Supabase if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     await supabaseStorage.saveQuizResultToSupabase(result);
   }
 
@@ -328,7 +341,7 @@ export async function saveQuizResult(result: QuizResult): Promise<void> {
 
 export async function getQuizHistory(limit?: number): Promise<QuizResult[]> {
   // Try Supabase first if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     const results = await supabaseStorage.getQuizHistoryFromSupabase(limit);
     if (results.length > 0) return results;
   }
@@ -382,7 +395,7 @@ export async function importAllData(jsonString: string): Promise<void> {
 // Reset functions
 export async function resetProgress(): Promise<void> {
   // Reset in Supabase if authenticated
-  if (await isAuthenticated()) {
+  if (isAuthenticated()) {
     await supabaseStorage.resetProgressInSupabase();
   }
 
