@@ -33,7 +33,7 @@ export function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <h1 className={styles.title}>Krypto Greek</h1>
+        <h1 className={styles.title}>Logos Greek</h1>
         <p className={styles.tagline}>Unlock the original text</p>
       </motion.header>
 

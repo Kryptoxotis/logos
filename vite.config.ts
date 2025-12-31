@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Krypto Greek',
-        short_name: 'Krypto Greek',
+        name: 'Logos Greek',
+        short_name: 'Logos Greek',
         description: 'Unlock the original text - Learn Koine Greek',
         theme_color: '#1e1b4b',
         background_color: '#0f0d1a',

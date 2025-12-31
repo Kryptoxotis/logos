@@ -19,7 +19,7 @@ export function Settings() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `krypto-greek-backup-${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `logos-greek-backup-${new Date().toISOString().split('T')[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
     } catch (error) {
@@ -262,7 +262,7 @@ export function Settings() {
 
       <section className={styles.section}>
         <div className={styles.about}>
-          <h3>Krypto Greek</h3>
+          <h3>Logos Greek</h3>
           <p>Unlock the original text</p>
           <p className={styles.version}>Version 1.0.0</p>
         </div>

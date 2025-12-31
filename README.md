@@ -1,4 +1,4 @@
-# Krypto Greek
+# Logos Greek
 
 **Unlock the original text** - A Progressive Web App for learning Koine Greek
 
