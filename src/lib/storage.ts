@@ -4,6 +4,8 @@ import type { SRSItem, UserProgress, UserSettings, QuizResult } from '../types';
 import { greekAlphabet } from '../data/alphabet';
 import { nounEndings } from '../data/nounEndings';
 import { verbEndings } from '../data/verbEndings';
+import { supabase, isSupabaseConfigured } from './supabase';
+import * as supabaseStorage from './supabaseStorage';
 
 interface KryptoDBSchema extends DBSchema {
   settings: {
@@ -30,6 +32,13 @@ const DB_NAME = 'krypto-greek';
 const DB_VERSION = 1;
 
 let dbInstance: IDBPDatabase<KryptoDBSchema> | null = null;
+
+// Check if user is authenticated with Supabase
+async function isAuthenticated(): Promise<boolean> {
+  if (!isSupabaseConfigured() || !supabase) return false;
+  const { data: { user } } = await supabase.auth.getUser();
+  return !!user;
+}
 
 export async function getDB(): Promise<IDBPDatabase<KryptoDBSchema>> {
   if (dbInstance) return dbInstance;
@@ -110,12 +119,25 @@ const defaultProgress: UserProgress = {
 
 // Settings functions
 export async function getSettings(): Promise<UserSettings> {
+  // Try Supabase first if authenticated
+  if (await isAuthenticated()) {
+    const settings = await supabaseStorage.getSettingsFromSupabase();
+    if (settings) return settings;
+  }
+
+  // Fall back to IndexedDB
   const db = await getDB();
   const settings = await db.get('settings', 'user');
   return settings || defaultSettings;
 }
 
 export async function saveSettings(settings: UserSettings): Promise<void> {
+  // Save to Supabase if authenticated
+  if (await isAuthenticated()) {
+    await supabaseStorage.saveSettingsToSupabase(settings);
+  }
+
+  // Always save to IndexedDB as backup
   const db = await getDB();
   await db.put('settings', settings, 'user');
 }
@@ -129,14 +151,28 @@ export async function updateSettings(partial: Partial<UserSettings>): Promise<Us
 
 // Progress functions
 export async function getProgress(): Promise<UserProgress> {
+  // Try Supabase first if authenticated
+  if (await isAuthenticated()) {
+    const progress = await supabaseStorage.getProgressFromSupabase();
+    if (progress) return progress;
+  }
+
+  // Fall back to IndexedDB
   const db = await getDB();
   const progress = await db.get('progress', 'user');
   return progress || defaultProgress;
 }
 
 export async function saveProgress(progress: UserProgress): Promise<void> {
-  const db = await getDB();
   progress.updatedAt = Date.now();
+
+  // Save to Supabase if authenticated
+  if (await isAuthenticated()) {
+    await supabaseStorage.saveProgressToSupabase(progress);
+  }
+
+  // Always save to IndexedDB as backup
+  const db = await getDB();
   await db.put('progress', progress, 'user');
 }
 
@@ -149,21 +185,45 @@ export async function updateProgress(partial: Partial<UserProgress>): Promise<Us
 
 // SRS Item functions
 export async function getSRSItem(id: string): Promise<SRSItem | undefined> {
+  // Try Supabase first if authenticated
+  if (await isAuthenticated()) {
+    const item = await supabaseStorage.getSRSItemFromSupabase(id);
+    if (item) return item;
+  }
+
   const db = await getDB();
   return db.get('srsItems', id);
 }
 
 export async function getAllSRSItems(): Promise<SRSItem[]> {
+  // Try Supabase first if authenticated
+  if (await isAuthenticated()) {
+    const items = await supabaseStorage.getAllSRSItemsFromSupabase();
+    if (items.length > 0) return items;
+  }
+
   const db = await getDB();
   return db.getAll('srsItems');
 }
 
 export async function getSRSItemsByType(type: 'letter' | 'noun-ending' | 'verb-ending'): Promise<SRSItem[]> {
+  // Try Supabase first if authenticated
+  if (await isAuthenticated()) {
+    const items = await supabaseStorage.getSRSItemsByTypeFromSupabase(type);
+    if (items.length > 0) return items;
+  }
+
   const db = await getDB();
   return db.getAllFromIndex('srsItems', 'by-type', type);
 }
 
 export async function getDueItems(type?: 'letter' | 'noun-ending' | 'verb-ending'): Promise<SRSItem[]> {
+  // Try Supabase first if authenticated
+  if (await isAuthenticated()) {
+    const items = await supabaseStorage.getDueItemsFromSupabase(type);
+    if (items.length > 0) return items;
+  }
+
   const db = await getDB();
   const now = Date.now();
   let items: SRSItem[];
@@ -178,11 +238,23 @@ export async function getDueItems(type?: 'letter' | 'noun-ending' | 'verb-ending
 }
 
 export async function saveSRSItem(item: SRSItem): Promise<void> {
+  // Save to Supabase if authenticated
+  if (await isAuthenticated()) {
+    await supabaseStorage.saveSRSItemToSupabase(item);
+  }
+
+  // Always save to IndexedDB as backup
   const db = await getDB();
   await db.put('srsItems', item);
 }
 
 export async function initializeSRSItems(): Promise<void> {
+  // Initialize in Supabase if authenticated
+  if (await isAuthenticated()) {
+    await supabaseStorage.initializeSRSItemsInSupabase();
+  }
+
+  // Also initialize in IndexedDB
   const db = await getDB();
   const existingItems = await db.getAll('srsItems');
 
@@ -244,11 +316,23 @@ export async function initializeSRSItems(): Promise<void> {
 
 // Quiz history functions
 export async function saveQuizResult(result: QuizResult): Promise<void> {
+  // Save to Supabase if authenticated
+  if (await isAuthenticated()) {
+    await supabaseStorage.saveQuizResultToSupabase(result);
+  }
+
+  // Always save to IndexedDB as backup
   const db = await getDB();
   await db.put('quizHistory', result);
 }
 
 export async function getQuizHistory(limit?: number): Promise<QuizResult[]> {
+  // Try Supabase first if authenticated
+  if (await isAuthenticated()) {
+    const results = await supabaseStorage.getQuizHistoryFromSupabase(limit);
+    if (results.length > 0) return results;
+  }
+
   const db = await getDB();
   const results = await db.getAllFromIndex('quizHistory', 'by-timestamp');
   results.reverse(); // Most recent first
@@ -297,6 +381,12 @@ export async function importAllData(jsonString: string): Promise<void> {
 
 // Reset functions
 export async function resetProgress(): Promise<void> {
+  // Reset in Supabase if authenticated
+  if (await isAuthenticated()) {
+    await supabaseStorage.resetProgressInSupabase();
+  }
+
+  // Also reset in IndexedDB
   const db = await getDB();
 
   // Clear SRS items
@@ -312,8 +402,56 @@ export async function resetProgress(): Promise<void> {
   // Reset progress
   await saveProgress(defaultProgress);
 
-  // Re-initialize SRS items
-  await initializeSRSItems();
+  // Re-initialize SRS items (but skip Supabase since we already did it above)
+  const existingItems = await db.getAll('srsItems');
+  if (existingItems.length === 0) {
+    const now = Date.now();
+    for (const letter of greekAlphabet) {
+      const item: SRSItem = {
+        id: `letter-${letter.id}`,
+        itemType: 'letter',
+        easeFactor: 2.5,
+        interval: 0,
+        repetitions: 0,
+        nextReviewDate: now,
+        lastReviewDate: 0,
+        totalReviews: 0,
+        correctReviews: 0,
+        averageResponseTime: 0,
+      };
+      await db.put('srsItems', item);
+    }
+    for (const ending of nounEndings) {
+      const item: SRSItem = {
+        id: `noun-${ending.id}`,
+        itemType: 'noun-ending',
+        easeFactor: 2.5,
+        interval: 0,
+        repetitions: 0,
+        nextReviewDate: now,
+        lastReviewDate: 0,
+        totalReviews: 0,
+        correctReviews: 0,
+        averageResponseTime: 0,
+      };
+      await db.put('srsItems', item);
+    }
+    for (const ending of verbEndings) {
+      const item: SRSItem = {
+        id: `verb-${ending.id}`,
+        itemType: 'verb-ending',
+        easeFactor: 2.5,
+        interval: 0,
+        repetitions: 0,
+        nextReviewDate: now,
+        lastReviewDate: 0,
+        totalReviews: 0,
+        correctReviews: 0,
+        averageResponseTime: 0,
+      };
+      await db.put('srsItems', item);
+    }
+  }
 }
 
 export async function resetSettings(): Promise<void> {
