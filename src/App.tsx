@@ -2,9 +2,10 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { NavBar } from './components/ui/NavBar';
-import { Home, Alphabet, AlphabetQuiz, Parsing, Settings, Progress } from './pages';
+import { Home, Alphabet, AlphabetQuiz, Parsing, Settings, Progress, Login } from './pages';
 import { useSettings } from './hooks/useSettings';
 import { initializeSRSItems } from './lib/storage';
+import { AuthProvider } from './contexts/AuthContext';
 import './styles/globals.css';
 
 function AppContent() {
@@ -42,6 +43,7 @@ function AppContent() {
             <Route path="/parsing" element={<Parsing />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </AnimatePresence>
       </main>
@@ -53,7 +55,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </BrowserRouter>
   );
 }
